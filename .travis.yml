@@ -1,0 +1,21 @@
+language: c
+
+sudo: required
+
+os:
+  - linux
+
+before_install:
+  - git clone git://github.com/akhilnarang/scripts ~/scripts
+  - cd ~/scripts
+  - bash setup/ubuntu1604linuxmint18.sh
+  - cd -
+  
+before_script:
+  - mkdir ~/kernel
+  - git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/ -b master ~/build/akhilnarang/oneplus3
+  - git clone --depth=1 ~/build/akhilnarang/kernel_oneplus_msm8996 -b oreo ~/build/akhilnarang/oneplus3
+  - git clone --depth=1 git://github.com/akhilnarang/AnyKernel2 -b oneplus3 ~/build/akhilnarang/anykernel/oneplus3
+script:
+  - export KERNELDIR=$HOME/build/akhilnarang
+  - bash ~/scripts/kernel.sh oneplus3 transfer
